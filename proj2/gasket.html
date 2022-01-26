@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Dotty old Sierpinski</title>
+  <link rel="stylesheet" type="text/css" href="gasket.css" />
+</head>
+<body>
+  <div id="mainWindow">
+    <h3 class="titleBar">Dotty Old Sierpinski</h3>
+
+    <div id="controls">
+      <div id="sliderdiv">
+        <p id="slidertitle">Points</p>
+        <input id="slider1" type="range" min="1" max="5000" value="100" />
+	<p id="pointcountpar"><span id="pointcount">100</span> points</p>
+      </div>
+      <button id="erasebutton" type="submit" >Erase</button>
+      <button id="drawbutton" type="submit" >Draw</button>
+    </div>
+
+    <canvas id="canvas1" width="450" height="342">
+      <p>Your browser doesn't support the HTML5 canvas element.</p>
+    </canvas>
+  </div>
+
+  <div id="messageWindow">
+    <h3 class="titleBar">Messages</h3>
+    <div id="messages"></div>
+  </div>
+
+  <!-- javascript, loaded at the end to make the page appear faster -->
+  <script type="text/javascript" src="https://cs.calvin.edu/curriculum/cs/352/files/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="https://cs.calvin.edu/curriculum/cs/352/files/js/sylvester.js"></script>
+  <script type="text/javascript" src="gasket.js"></script>
+</body>
+</html>

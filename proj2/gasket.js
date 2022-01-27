@@ -40,6 +40,7 @@ gasket.init = function () {
   gasket.cx.fillRect(.49,.75,.02,-.5);
   gasket.legs();
   gasket.arms();
+  gasket.belly();
 
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
@@ -88,6 +89,18 @@ gasket.arms = function(width = .02) {
   gasket.cx.lineTo(.55,.25);
   // gasket.cx.closePath();
   gasket.cx.stroke();
+}
+
+gasket.belly = function(fattness = 0) {
+  gasket.cx.beginPath();
+  gasket.cx.lineWidth = .001;
+  gasket.cx.moveTo(.5,.6);
+  gasket.cx.quadraticCurveTo(.45, .25, .5, .25);
+  gasket.cx.quadraticCurveTo(.55, .25, .5, .66);
+  gasket.cx.closePath();
+  gasket.cx.fill();
+
+
 }
 
 // erase canvas and message box

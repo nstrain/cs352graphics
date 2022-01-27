@@ -36,13 +36,11 @@ gasket.init = function () {
   // (a 300x300 square) is (0,0) to (1,1), with (0,0) in the lower left.
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
   gasket.circle(.5,.75,.1, true);
+  //body
   gasket.cx.fillRect(.49,.75,.02,-.5);
-  gasket.cx.beginPath();
-  gasket.cx.lineWidth = .02;
-  gasket.cx.moveTo(.45,0);
-  gasket.cx.lineTo(.5,.25);  
-  gasket.cx.lineTo(.55,.0);
-  gasket.cx.stroke();
+  gasket.legs();
+  gasket.arms();
+
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);
@@ -70,6 +68,26 @@ gasket.circle = function (x, y, radius, fill = false) {
   gasket.cx.beginPath();
   gasket.cx.arc(x, y, radius, 0, 2 * Math.PI, false);
   fill ? gasket.cx.fill() : gasket.cx.stroke();
+}
+
+gasket.legs = function(width = .02) {
+  gasket.cx.beginPath();
+  gasket.cx.lineWidth = width;
+  gasket.cx.moveTo(.45,0);
+  gasket.cx.lineTo(.5,.25);  
+  gasket.cx.lineTo(.55,.0);
+  gasket.cx.closePath();
+  gasket.cx.stroke();
+}
+
+gasket.arms = function(width = .02) {
+  gasket.cx.beginPath();
+  gasket.cx.lineWidth = width;
+  gasket.cx.moveTo(.45,.25);
+  gasket.cx.lineTo(.5,.6);  
+  gasket.cx.lineTo(.55,.25);
+  gasket.cx.closePath();
+  gasket.cx.stroke();
 }
 
 // erase canvas and message box

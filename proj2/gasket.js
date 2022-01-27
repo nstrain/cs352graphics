@@ -35,12 +35,7 @@ gasket.init = function () {
   // to change the coordinate system so that the central part of the canvas
   // (a 300x300 square) is (0,0) to (1,1), with (0,0) in the lower left.
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
-  gasket.circle(.5,.75,.1, true);
-  //body
-  gasket.cx.fillRect(.49,.75,.02,-.5);
-  gasket.legs();
-  gasket.arms();
-  gasket.belly();
+  gasket.draw();
 
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
@@ -49,19 +44,25 @@ gasket.init = function () {
 }
 
 gasket.draw = function (ev) {
-  // pick a random point along the bottom edge
-  p = Vector.create([Math.random(), 0]);
-  $('#messages').prepend("Starting point: (" + p.e(1) + "," + p.e(2) + ")<br>");
+  // // pick a random point along the bottom edge
+  // p = Vector.create([Math.random(), 0]);
+  // $('#messages').prepend("Starting point: (" + p.e(1) + "," + p.e(2) + ")<br>");
 
-  for (i = 0; i < $('#slider1').val(); i++) {
-    v = Math.floor(Math.random() * 3);		// random integer from 0 to 2
-    p = (vertex[v].add(p)).multiply(0.5);	// average p with chosen vertex
-    if (i < 5) {
-      $('#messages').prepend("Avg with vertex[" + v + "]->[" + p.e(1) + "," + p.e(2) + "]<br>");
-    }
+  // for (i = 0; i < $('#slider1').val(); i++) {
+  //   v = Math.floor(Math.random() * 3);		// random integer from 0 to 2
+  //   p = (vertex[v].add(p)).multiply(0.5);	// average p with chosen vertex
+  //   if (i < 5) {
+  //     $('#messages').prepend("Avg with vertex[" + v + "]->[" + p.e(1) + "," + p.e(2) + "]<br>");
+  //   }
 
-    gasket.circle(p.e(1), p.e(2), gasket.radius);
-  }
+  //   gasket.circle(p.e(1), p.e(2), gasket.radius);
+  // }
+  gasket.circle(.5,.75,.1, true);
+  //body
+  gasket.cx.fillRect(.49,.75,.02,-.5);
+  gasket.legs();
+  gasket.arms();
+  gasket.belly();
 }
 
 // draw a filled circle
@@ -112,4 +113,17 @@ gasket.erase = function (ev) {
 // update the message below the slider with its setting
 gasket.slider = function (ev) {
   $('#pointcount').text($('#slider1').val());
+}
+
+// https://stackoverflow.com/questions/1250419/finding-points-on-a-line-with-a-given-distance
+// (xt, yt) = (((1 - t) * x0 + t * x1), ((1 - t) * y0 + t * y1))
+
+gasket.fatAngle = function() {
+  fattness = $('#slider1').val();
+  return ((5+fattness) * 360) / (2 * Math.PI);
+}
+
+//arm length 0.35355339059
+gasket.hands = function() {
+  return [(0.35355339059/Math.sin(Math.PI/2))*Math.sin(gasket.fatAngle()),(0.35355339059/Math.sin(Math.PI/2))*Math.sin(Math.PI/2 - gasket.fatAngle())]
 }

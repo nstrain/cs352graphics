@@ -23,7 +23,7 @@ gasket.init = function () {
   gasket.cx = gasket.canvas.getContext('2d');	// get the drawing canvas
   // gasket.cx.fillStyle = 'rgba(250,0,0,0.7)';
   // gasket.cx.fillStyle = 'rgba(255,255,255,0.7)';
-  gasket.cx.fillStyle = 'rgba(0,0,0,0.7)';
+  gasket.cx.fillStyle = 'rgba(0,0,0,1)';
 
 
   // vertex[0] = Vector.create([0, 0]);		// the vertices of our triangle

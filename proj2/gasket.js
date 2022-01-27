@@ -76,7 +76,7 @@ gasket.legs = function(width = .02) {
   gasket.cx.moveTo(.45,0);
   gasket.cx.lineTo(.5,.25);  
   gasket.cx.lineTo(.55,.0);
-  gasket.cx.closePath();
+  // gasket.cx.closePath();
   gasket.cx.stroke();
 }
 
@@ -86,7 +86,7 @@ gasket.arms = function(width = .02) {
   gasket.cx.moveTo(.45,.25);
   gasket.cx.lineTo(.5,.6);  
   gasket.cx.lineTo(.55,.25);
-  gasket.cx.closePath();
+  // gasket.cx.closePath();
   gasket.cx.stroke();
 }
 

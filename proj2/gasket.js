@@ -35,7 +35,8 @@ gasket.init = function () {
   // to change the coordinate system so that the central part of the canvas
   // (a 300x300 square) is (0,0) to (1,1), with (0,0) in the lower left.
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
-
+  gasket.circle(.5,.75,.1, true)
+  gasket.cx.fillRect(.49,.75,.02,-.5)
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);

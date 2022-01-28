@@ -123,7 +123,7 @@ gasket.slider = function (ev) {
 
 gasket.fatAngle = function() {
   fattness = $('#slider1').val();
-  return ((5+fattness) * 360) / (2 * Math.PI);
+  return (5+fattness) * (Math.PI/180);
 }
 
 //arm length 0.35355339059

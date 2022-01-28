@@ -11,10 +11,6 @@
  * Instead cheese burger man?
  */
 
-var gasket = {
-  radius: 0.005,				// dot radius
-}
-var vertex = new Array();
 
 $(document).ready(function () { gasket.init(); });
 
@@ -23,15 +19,9 @@ gasket.init = function () {
   gasket.burg.src = 'burg.png'; // Set source path
   gasket.canvas = $('#canvas1')[0];
   gasket.cx = gasket.canvas.getContext('2d');	// get the drawing canvas
-  // gasket.cx.fillStyle = 'rgba(250,0,0,0.7)';
-  // gasket.cx.fillStyle = 'rgba(255,255,255,0.7)';
   gasket.cx.fillStyle = 'rgba(0,0,0,1)';
   gasket.animate = false;
 
-
-  // vertex[0] = Vector.create([0, 0]);		// the vertices of our triangle
-  // vertex[1] = Vector.create([1, 0]);
-  // vertex[2] = Vector.create([0.5, 1]);
 
   // By default (0,0) is the upper left and canvas.width, canvas.height 
   // is the lower right. We'll add a matrix multiplication to the state
@@ -45,6 +35,8 @@ gasket.init = function () {
   gasket.lingrad.addColorStop(0.5, '#fff');
   gasket.lingrad.addColorStop(0.5, '#00ABEB');
   gasket.lingrad.addColorStop(1, '#fff');
+
+  //set font stuff
   gasket.cx.font = '10px serif';
 
   // bind functions to events, button clicks
@@ -56,12 +48,14 @@ gasket.init = function () {
 
 }
 
+//kick off the animation and then call another function to run the animation
 gasket.startAnimation = function() {
   gasket.animate = !gasket.animate;
   if(gasket.animate)
     gasket.runAnimation();
 }
 
+//run the animation after it has been started
 gasket.runAnimation = function() {
   if(gasket.animate) {
     $('#slider1').val((parseInt( $('#slider1').val()) + 1)%51);
@@ -72,19 +66,7 @@ gasket.runAnimation = function() {
 }
 
 gasket.draw = function (ev) {
-  // // pick a random point along the bottom edge
-  // p = Vector.create([Math.random(), 0]);
-  // $('#messages').prepend("Starting point: (" + p.e(1) + "," + p.e(2) + ")<br>");
 
-  // for (i = 0; i < $('#slider1').val(); i++) {
-  //   v = Math.floor(Math.random() * 3);		// random integer from 0 to 2
-  //   p = (vertex[v].add(p)).multiply(0.5);	// average p with chosen vertex
-  //   if (i < 5) {
-  //     $('#messages').prepend("Avg with vertex[" + v + "]->[" + p.e(1) + "," + p.e(2) + "]<br>");
-  //   }
-
-  //   gasket.circle(p.e(1), p.e(2), gasket.radius);
-  // }
   gasket.erase();
 
   //background
@@ -98,7 +80,7 @@ gasket.draw = function (ev) {
   gasket.cx.fillRect(.49,.75,.02,-.5);
   gasket.legs();
   gasket.arms();
-  if(!$('#controlCheck').is(':checked')){
+  if(!$('#controlCheck').is(':checked')){ // only do these things if the stick man can't control himself
     gasket.belly();
     
     gasket.cx.setTransform( 2, 0, 0, 2, 0, 0 );
@@ -117,6 +99,7 @@ gasket.circle = function (x, y, radius, fill = false) {
   fill ? gasket.cx.fill() : gasket.cx.stroke();
 }
 
+//draw the stick man's legs
 gasket.legs = function(width = .02) {
   gasket.cx.beginPath();
   gasket.cx.lineWidth = width;
@@ -127,6 +110,7 @@ gasket.legs = function(width = .02) {
   gasket.cx.stroke();
 }
 
+//draw the stick man's arms depending on the fatness value
 gasket.arms = function(width = .02) {
   gasket.cx.beginPath();
   gasket.cx.lineWidth = width;
@@ -138,6 +122,7 @@ gasket.arms = function(width = .02) {
   gasket.cx.stroke();
 }
 
+//draw the stickman's belly depending on the fatness value
 gasket.belly = function(fattness = 0) {
   var offset = gasket.hands();
   gasket.cx.beginPath();
@@ -157,32 +142,32 @@ gasket.erase = function (ev) {
   $('#messages').html("");
 }
 
-// update the message below the slider with its setting
+// update the message below the slider with its setting and redraw
 gasket.slider = function (ev) {
   $('#pointcount').text($('#slider1').val());
   gasket.draw();
 }
 
+//update the check box text and redraw, toggles the stomach and text
 gasket.control = function (ev) {
   $('#controlText').text($('#controlCheck').is(':checked') ? "Self Control" : "No Self Control");
   console.log($('#controlCheck').is(':checked'));
   gasket.draw();
 }
 
-// https://stackoverflow.com/questions/1250419/finding-points-on-a-line-with-a-given-distance
-// (xt, yt) = (((1 - t) * x0 + t * x1), ((1 - t) * y0 + t * y1))
-
+//determine the angle of the arms based on the fatness factor
 gasket.fatAngle = function() {
   fattness = $('#slider1').val();
   return (80-fattness) * (Math.PI/180);
 }
 
 //arm length 0.35355339059
+//determine the position of the stickman's hands depending the the angle of his arms, return offset from shoulder (base of arm)
 gasket.hands = function() {
   return [(0.35355339059/Math.sin(Math.PI/2))*Math.sin(gasket.fatAngle()),(0.35355339059/Math.sin(Math.PI/2))*Math.sin(Math.PI/2 - gasket.fatAngle())]
 }
 
-// place burgesr, all coordinates are for top left
+// place burgers, all coordinates are for top left of pic
 gasket.burgers = function(){
   var xvals = [0, .2, .6, .8]
   var num;

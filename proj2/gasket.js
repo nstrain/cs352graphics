@@ -64,7 +64,7 @@ gasket.draw = function (ev) {
   gasket.cx.fillRect(.49,.75,.02,-.5);
   gasket.legs();
   gasket.arms();
-  if($('#controlCheck').val()){
+  if(!$('#controlCheck').is(':checked')){
     gasket.belly();
   }
 }
@@ -123,8 +123,8 @@ gasket.slider = function (ev) {
 }
 
 gasket.control = function (ev) {
-  $('#controlText').text($('#controlCheck').val() ? "Self Control" : "No Self Control");
-  console.log($('#controlCheck').val());
+  $('#controlText').text($('#controlCheck').is(':checked') ? "Self Control" : "No Self Control");
+  console.log($('#controlCheck').is(':checked'));
   gasket.draw();
 }
 

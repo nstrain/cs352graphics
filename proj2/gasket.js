@@ -95,11 +95,12 @@ gasket.arms = function(width = .02) {
 }
 
 gasket.belly = function(fattness = 0) {
+  var offset = gasket.hands();
   gasket.cx.beginPath();
   gasket.cx.lineWidth = .001;
   gasket.cx.moveTo(.5,.6);
-  gasket.cx.quadraticCurveTo(.45, .25, .5, .25);
-  gasket.cx.quadraticCurveTo(.55, .25, .5, .66);
+  gasket.cx.quadraticCurveTo(.5-offset[1],.6-offset[0], .5, .25);
+  gasket.cx.quadraticCurveTo(.5+offset[1],.6-offset[0], .5, .66);
   gasket.cx.closePath();
   gasket.cx.fill();
 

@@ -67,7 +67,7 @@ gasket.runAnimation = function() {
     $('#slider1').val(($('#slider1').val() + 1)%51);
     gasket.slider();
     
-    setTimeout(gasket.startAnimation(), 40);
+    setTimeout(gasket.runAnimation(), 40);
   }
 }
 

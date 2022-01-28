@@ -39,7 +39,7 @@ gasket.init = function () {
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
 
   //create gradient style
-  gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 0, 150);
+  gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 1, 1);
   gasket.lingrad.addColorStop(0, '#00ABEB');
   gasket.lingrad.addColorStop(0.5, '#fff');
   gasket.lingrad.addColorStop(0.5, '#26C000');

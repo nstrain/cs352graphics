@@ -64,7 +64,7 @@ gasket.startAnimation = function() {
 
 gasket.runAnimation = function() {
   if(gasket.animate) {
-    $('#slider1').val(($('#slider1').val() + 1)%51);
+    $('#slider1').val((parseInt( $('#slider1').val()) + 1)%51);
     gasket.slider();
     
     setTimeout(gasket.runAnimation, 1000);

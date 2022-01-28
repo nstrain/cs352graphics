@@ -85,9 +85,10 @@ gasket.legs = function(width = .02) {
 gasket.arms = function(width = .02) {
   gasket.cx.beginPath();
   gasket.cx.lineWidth = width;
-  gasket.cx.moveTo(.45,.25);
+  var offset = gasket.hands();
+  gasket.cx.moveTo(.5-offset[0],.6-offset[1]);
   gasket.cx.lineTo(.5,.6);  
-  gasket.cx.lineTo(.55,.25);
+  gasket.cx.lineTo(.5+offset[0],.6-offset[1]);
   // gasket.cx.closePath();
   gasket.cx.stroke();
 }

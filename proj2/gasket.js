@@ -81,13 +81,13 @@ gasket.draw = function (ev) {
     gasket.belly();
     
     gasket.cx.setTransform( 2, 0, 0, 2, 0, 0 );
-    ctx.fillText('The Amazing Fat Man', 0, 330);
+    gasket.cx.fillText('The Amazing Fat Man', 0, 330);
     gasket.cx.setTransform(300,0,0,-300,75,321);
 
   }
 
   //background
-  gasket.cx.fillStyle = lingrad;
+  gasket.cx.fillStyle = gasket.lingrad;
   gasket.cx.fillRect(0, 0, 1, 1);
   gasket.cx.fillStyle = 'rgba(0,0,0,1)';
 }

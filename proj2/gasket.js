@@ -39,7 +39,7 @@ gasket.init = function () {
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
 
   //create gradient style
-  gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 1, 1);
+  gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 0, 1);
   gasket.lingrad.addColorStop(0, '#00ABEB');
   gasket.lingrad.addColorStop(0.5, '#fff');
   gasket.lingrad.addColorStop(0.5, '#26C000');
@@ -71,6 +71,12 @@ gasket.draw = function (ev) {
   //   gasket.circle(p.e(1), p.e(2), gasket.radius);
   // }
   gasket.erase();
+
+  //background
+  gasket.cx.fillStyle = gasket.lingrad;
+  gasket.cx.fillRect(0, 0, 1, 1);
+  gasket.cx.fillStyle = 'rgba(0,0,0,1)';
+
   gasket.burgers();
   gasket.circle(.5,.75,.1, true);
   //body
@@ -86,10 +92,7 @@ gasket.draw = function (ev) {
 
   }
 
-  //background
-  gasket.cx.fillStyle = gasket.lingrad;
-  gasket.cx.fillRect(0, 0, 1, 1);
-  gasket.cx.fillStyle = 'rgba(0,0,0,1)';
+
 }
 
 // draw a filled circle

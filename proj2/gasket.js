@@ -37,13 +37,22 @@ gasket.init = function () {
   // to change the coordinate system so that the central part of the canvas
   // (a 300x300 square) is (0,0) to (1,1), with (0,0) in the lower left.
   gasket.cx.setTransform(300, 0, 0, -300, 75, 321);
-  gasket.draw();
+
+  //create gradient style
+  gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 0, 150);
+  gasket.lingrad.addColorStop(0, '#00ABEB');
+  gasket.lingrad.addColorStop(0.5, '#fff');
+  gasket.lingrad.addColorStop(0.5, '#26C000');
+  gasket.lingrad.addColorStop(1, '#fff');
 
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);
   $('#slider1').bind('change', gasket.slider);
   $('#controlCheck').bind('click', gasket.control);
+
+  gasket.draw();
+
 }
 
 gasket.draw = function (ev) {
@@ -69,7 +78,14 @@ gasket.draw = function (ev) {
   gasket.arms();
   if(!$('#controlCheck').is(':checked')){
     gasket.belly();
+    ctx.font = '1px serif';
+    ctx.fillText('Fat Man', 0, 0);
   }
+
+  //background
+  gasket.cx.fillStyle = lingrad;
+  gasket.cx.fillRect(0, 0, 1, 1);
+  gasket.cx.fillStyle = 'rgba(0,0,0,1)';
 }
 
 // draw a filled circle

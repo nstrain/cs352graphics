@@ -44,6 +44,7 @@ gasket.init = function () {
   gasket.lingrad.addColorStop(0.5, '#fff');
   gasket.lingrad.addColorStop(0.5, '#26C000');
   gasket.lingrad.addColorStop(1, '#fff');
+  gasket.cx.font = '12px serif';
 
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
@@ -78,8 +79,11 @@ gasket.draw = function (ev) {
   gasket.arms();
   if(!$('#controlCheck').is(':checked')){
     gasket.belly();
-    ctx.font = '1px serif';
-    ctx.fillText('Fat Man', 0, 0);
+    
+    gasket.cx.setTransform( 2, 0, 0, 2, 0, 0 );
+    ctx.fillText('The Amazing Fat Man', 0, 330);
+    gasket.cx.setTransform(300,0,0,-300,75,321);
+
   }
 
   //background
@@ -166,6 +170,6 @@ gasket.burgers = function(){
   var num;
   for(let i = 0; i < $('#slider1').val(); i++) {
     num = i / 2;
-    gasket.cx.drawImage(gasket.burg, xvals[(num)%4], .16 + .13 * Math.floor(num/4), .16, .16);
+    gasket.cx.drawImage(gasket.burg, xvals[(num)%4], .08 + .13 * Math.floor(num/4), .16, .16);
   }
 }

@@ -11,6 +11,9 @@
  * Instead cheese burger man?
  */
 
+var gasket = {
+  radius: 0.005,				// dot radius
+}
 
 $(document).ready(function () { gasket.init(); });
 

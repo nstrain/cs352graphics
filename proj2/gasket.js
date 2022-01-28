@@ -26,6 +26,7 @@ gasket.init = function () {
   // gasket.cx.fillStyle = 'rgba(250,0,0,0.7)';
   // gasket.cx.fillStyle = 'rgba(255,255,255,0.7)';
   gasket.cx.fillStyle = 'rgba(0,0,0,1)';
+  gasket.animate = false;
 
 
   // vertex[0] = Vector.create([0, 0]);		// the vertices of our triangle
@@ -44,16 +45,30 @@ gasket.init = function () {
   gasket.lingrad.addColorStop(0.5, '#fff');
   gasket.lingrad.addColorStop(0.5, '#00ABEB');
   gasket.lingrad.addColorStop(1, '#fff');
-  gasket.cx.font = '12px serif';
+  gasket.cx.font = '10px serif';
 
   // bind functions to events, button clicks
-  $('#erasebutton').bind('click', gasket.erase);
-  $('#drawbutton').bind('click', gasket.draw);
+  $('#animatebutton').bind('click', gasket.startAnimation);
   $('#slider1').bind('change', gasket.slider);
   $('#controlCheck').bind('click', gasket.control);
 
   gasket.draw();
 
+}
+
+gasket.startAnimation = function() {
+  gasket.animate = !gasket.animate;
+  if(gasket.animate)
+    gasket.runAnimation();
+}
+
+gasket.runAnimation = function() {
+  if(gasket.animate) {
+    $('#slider1').val(($('#slider1').val() + 1)%51);
+    gasket.slider();
+    
+    setTimeout(gasket.startAnimation(), 40);
+  }
 }
 
 gasket.draw = function (ev) {

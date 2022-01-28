@@ -40,9 +40,9 @@ gasket.init = function () {
 
   //create gradient style
   gasket.lingrad = gasket.cx.createLinearGradient(0, 0, 0, 1);
-  gasket.lingrad.addColorStop(0, '#00ABEB');
+  gasket.lingrad.addColorStop(0, '#26C000');
   gasket.lingrad.addColorStop(0.5, '#fff');
-  gasket.lingrad.addColorStop(0.5, '#26C000');
+  gasket.lingrad.addColorStop(0.5, '#00ABEB');
   gasket.lingrad.addColorStop(1, '#fff');
   gasket.cx.font = '12px serif';
 
@@ -87,7 +87,7 @@ gasket.draw = function (ev) {
     gasket.belly();
     
     gasket.cx.setTransform( 2, 0, 0, 2, 0, 0 );
-    gasket.cx.fillText('The Amazing Fat Man', 0, 330);
+    gasket.cx.fillText('The Amazing Fat Man', 0, 150);
     gasket.cx.setTransform(300,0,0,-300,75,321);
 
   }

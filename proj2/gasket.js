@@ -41,7 +41,7 @@ gasket.init = function () {
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);
   $('#slider1').bind('change', gasket.slider);
-  $('#controlCheck').bind('change', gasket.control);
+  $('#controlCheck').bind('click', gasket.control);
 }
 
 gasket.draw = function (ev) {
@@ -124,6 +124,7 @@ gasket.slider = function (ev) {
 
 gasket.control = function (ev) {
   $('#controlText').text($('#controlCheck').val() ? "Self Control" : "No Self Control");
+  console.log($('#controlCheck').val());
   gasket.draw();
 }
 

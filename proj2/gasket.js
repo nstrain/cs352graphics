@@ -41,6 +41,7 @@ gasket.init = function () {
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);
   $('#slider1').bind('change', gasket.slider);
+  $('#controlCheck').bind('change', gasket.control);
 }
 
 gasket.draw = function (ev) {
@@ -63,7 +64,9 @@ gasket.draw = function (ev) {
   gasket.cx.fillRect(.49,.75,.02,-.5);
   gasket.legs();
   gasket.arms();
-  gasket.belly();
+  if($('#controlCheck').val()){
+    gasket.belly();
+  }
 }
 
 // draw a filled circle
@@ -100,7 +103,7 @@ gasket.belly = function(fattness = 0) {
   gasket.cx.lineWidth = .001;
   gasket.cx.moveTo(.5,.6);
   gasket.cx.quadraticCurveTo(.5-offset[1],.6-offset[0], .5, .25);
-  gasket.cx.quadraticCurveTo(.5+offset[1],.6-offset[0], .5, .66);
+  gasket.cx.quadraticCurveTo(.5+offset[1],.6-offset[0], .5, .6);
   gasket.cx.closePath();
   gasket.cx.fill();
 
@@ -116,6 +119,11 @@ gasket.erase = function (ev) {
 // update the message below the slider with its setting
 gasket.slider = function (ev) {
   $('#pointcount').text($('#slider1').val());
+  gasket.draw();
+}
+
+gasket.control = function (ev) {
+  $('#controlText').text($('#controlCheck').val() ? "Self Control" : "No Self Control");
   gasket.draw();
 }
 

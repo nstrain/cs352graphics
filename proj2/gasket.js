@@ -147,7 +147,9 @@ gasket.hands = function() {
 // place burgesr, all coordinates are for top left
 gasket.burgers = function(){
   var xvals = [0, .2, .6, .8]
+  var num;
   for(let i = 0; i < $('#slider1').val(); i++) {
-    gasket.cx.drawImage(gasket.burg, xvals[i%4], .08 * Math.ceil(i/4), .08, .08);
+    num = i / 2;
+    gasket.cx.drawImage(gasket.burg, xvals[(num)%4], .16 + .13 * Math.floor(num/4), .16, .16);
   }
 }

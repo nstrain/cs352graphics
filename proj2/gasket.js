@@ -57,6 +57,7 @@ gasket.draw = function (ev) {
 
   //   gasket.circle(p.e(1), p.e(2), gasket.radius);
   // }
+  gasket.erase();
   gasket.circle(.5,.75,.1, true);
   //body
   gasket.cx.fillRect(.49,.75,.02,-.5);
@@ -114,6 +115,7 @@ gasket.erase = function (ev) {
 // update the message below the slider with its setting
 gasket.slider = function (ev) {
   $('#pointcount').text($('#slider1').val());
+  gasket.draw();
 }
 
 // https://stackoverflow.com/questions/1250419/finding-points-on-a-line-with-a-given-distance

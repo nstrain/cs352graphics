@@ -89,7 +89,7 @@ gasket.arms = function(width = .02) {
   var offset = gasket.hands();
   gasket.cx.moveTo(.5-offset[1],.6-offset[0]);
   gasket.cx.lineTo(.5,.6);  
-  gasket.cx.lineTo(.5+offset[0],.6-offset[1]);
+  gasket.cx.lineTo(.5+offset[1],.6-offset[0]);
   // gasket.cx.closePath();
   gasket.cx.stroke();
 }
@@ -123,7 +123,7 @@ gasket.slider = function (ev) {
 
 gasket.fatAngle = function() {
   fattness = $('#slider1').val();
-  return (5+fattness) * (Math.PI/180);
+  return (fattness) * (Math.PI/180);
 }
 
 //arm length 0.35355339059

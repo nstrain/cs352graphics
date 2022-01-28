@@ -40,7 +40,7 @@ gasket.init = function () {
   // bind functions to events, button clicks
   $('#erasebutton').bind('click', gasket.erase);
   $('#drawbutton').bind('click', gasket.draw);
-  $('#slider1').bind('change', gasket.slider);
+  $('#slider1').bind('onSlide', gasket.slider);
 }
 
 gasket.draw = function (ev) {

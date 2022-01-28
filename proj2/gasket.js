@@ -19,6 +19,8 @@ var vertex = new Array();
 $(document).ready(function () { gasket.init(); });
 
 gasket.init = function () {
+  gasket.burg = new Image();   // Create new img element
+  gasket.burg.src = 'burg.png'; // Set source path
   gasket.canvas = $('#canvas1')[0];
   gasket.cx = gasket.canvas.getContext('2d');	// get the drawing canvas
   // gasket.cx.fillStyle = 'rgba(250,0,0,0.7)';
@@ -59,6 +61,7 @@ gasket.draw = function (ev) {
   //   gasket.circle(p.e(1), p.e(2), gasket.radius);
   // }
   gasket.erase();
+  gasket.burgers();
   gasket.circle(.5,.75,.1, true);
   //body
   gasket.cx.fillRect(.49,.75,.02,-.5);
@@ -139,4 +142,12 @@ gasket.fatAngle = function() {
 //arm length 0.35355339059
 gasket.hands = function() {
   return [(0.35355339059/Math.sin(Math.PI/2))*Math.sin(gasket.fatAngle()),(0.35355339059/Math.sin(Math.PI/2))*Math.sin(Math.PI/2 - gasket.fatAngle())]
+}
+
+// place burgesr, all coordinates are for top left
+gasket.burgers = function(){
+  var xvals = [0, .2, .6, .8]
+  for(let i = 0; i < $('#slider1').val(); i++) {
+    gasket.cx.drawImage(gasket.burg, xvals[i%4], .08 * Math.ceil(i/4), .08, .08);
+  }
 }

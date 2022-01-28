@@ -1,14 +1,14 @@
 body {
-    background-color:gold;
+    background-color:lightgoldenrodyellow;
 }
 
 #mainWindow {
-    background-color:#ddd;
+    background-color:maroon;
     width:500pt;
     height:300pt;
     margin-top:18pt;
     margin-left:18pt;
-    border: solid #ddd 2px; 
+    border: solid maroon 2px; 
     -webkit-box-shadow: 5pt 5pt 10pt #666;
     -moz-box-shadow: 5pt 5pt 10pt #666;
 }
@@ -18,7 +18,7 @@ body {
     font-family:arial;
     font-size:12pt;
     background-color:maroon;
-    color:white;
+    color:gold;
     margin-top:0;
     margin-bottom:0pt;
     padding:2pt;

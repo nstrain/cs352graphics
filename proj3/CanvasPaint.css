@@ -50,7 +50,7 @@ body {
 }
 
 #tools div:hover {
-    border: black;
+    border: solid #000 2px;
 }
 
 .toolbarCell {

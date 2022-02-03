@@ -47,8 +47,7 @@ cpaint.init = function () {
 }
 
 cpaint.thickness = function() {
-  $('#dot').css('height') = $('#widthSlider').val() + "px";
-  $('#dot').css('width') = $('#widthSlider').val() + "px";
+  $('#dot').css({"height": $('#widthSlider').val() + "px", "width":$('#widthSlider').val() + "px"});
 }
 
 cpaint.clear = function() {

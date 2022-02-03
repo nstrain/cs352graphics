@@ -90,7 +90,7 @@ body {
 #widthSlider {
     position:relative;
     width:35px;
-    top:16px;
+    /* top:16px; */
     left:-4pt;
 }
 

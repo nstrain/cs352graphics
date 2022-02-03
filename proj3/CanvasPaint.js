@@ -37,8 +37,17 @@ cpaint.init = function () {
   $('#menuOpen').bind('click',cpaint.open);
   $('#menuSave').bind('click',cpaint.save);
   $('#toolBar').show();		// when toolbar is initialized, make it visible
+  //side tool bar selection
+  $('#markerButton').bind('click', {tool:"marker"}, cpaint.selectTool);
+  $('#lineButton').bind('click', {tool:"line"}, cpaint.selectTool);
+  $('#rectButton').bind('click', {tool:"rect"}, cpaint.selectTool);
+  $('#eraserButton').bind('click', {tool:"eraser"}, cpaint.selectTool);
+  $('#clearButton').bind('click', cpaint.clear);
 }
 
+cpaint.clear = function() {
+  cpaint.cx.clearRect(0,0, cpaint.canvas.width, cpaint.canvas.height);
+}
 /*
  * handle mousedown events
  */
@@ -182,3 +191,14 @@ cpaint.unfade = function(ev) {
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
+// select tool
+cpaint.selectTool = function(ev) {
+  cpaint.tool = ev.data.tool;			// get tool name
+
+  $('.toolbarCell').each(function(index) {	// unselect other buttons
+    $(this).removeClass('selected');
+  });
+
+  var tool = '#' + cpaint.tool + 'Button';	// construct ID of button as #toolButton
+  $(tool).addClass('selected');			// select this button
+}

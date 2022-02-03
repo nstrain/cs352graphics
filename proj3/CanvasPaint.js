@@ -58,6 +58,7 @@ cpaint.drawStart = function(ev) {
   // cpaint.cx.lineTo(x,y);
   // cpaint.cx.stroke();
   cpaint.lastCoord = [x,y];
+  cpaint.secondLastCoord = [x,y];
 }
 
 /*
@@ -76,12 +77,17 @@ cpaint.draw = function(ev) {
   y = ev.pageY - $(cpaint.canvas).offset().top;
 
   if (cpaint.drawing) {
+    cpaint.lineWidth = 1;
+    cpaint.lineJoin = 'round';
     cpaint.cx.beginPath();			// draw initial stroke
-    cpaint.cx.moveTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
+    cpaint.cx.moveTo(cpaint.secondLastCoord[0], cpaint.secondLastCoord[1]);
+    cpaint.cx.lineTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
     cpaint.cx.lineTo(x,y);
     cpaint.cx.stroke();
   }
+  cpaint.secondLastCoord = cpaint.lastCoord;
   cpaint.lastCoord = [x,y];
+  
 } 
 
 /*

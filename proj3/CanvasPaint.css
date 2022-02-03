@@ -49,6 +49,10 @@ body {
     margin-left:2pt;
 }
 
+#tools div:hover {
+    border: black;
+}
+
 .toolbarCell {
     background-color:#ddd;
     width:20pt;

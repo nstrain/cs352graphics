@@ -43,6 +43,12 @@ cpaint.init = function () {
   $('#rectButton').bind('click', {tool:"rect"}, cpaint.selectTool);
   $('#eraserButton').bind('click', {tool:"eraser"}, cpaint.selectTool);
   $('#clearButton').bind('click', cpaint.clear);
+  $('#widthSlider').bind('change', cpanint.thickness);
+}
+
+cpaint.thickness = function() {
+  $('#dot').css('height') = $('#widthSlider').val();
+  $('#dot').css('width') = $('#widthSlider').val();
 }
 
 cpaint.clear = function() {
@@ -60,8 +66,9 @@ cpaint.drawStart = function(ev) {
   cpaint.drawing = true;			// go into drawing mode
 
   cpaint.color = $('#color1').val();
+  cpaint.lineThickness = $('#widthSlider').val();
   if(cpaint.tool == 'eraser'){
-    cpaint.color = '#eee'
+    cpaint.color = '#ffffff'
   }
 
   cpaint.cx.lineWidth = cpaint.lineThickness;

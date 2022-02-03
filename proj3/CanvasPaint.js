@@ -115,9 +115,11 @@ cpaint.draw = function(ev) {
     } else if (cpaint.tool == "line") {
       cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
       cpaint.cx.putImageData(cpaint.imgData,0,0);
+      cpaint.cx.beginPath();
       cpaint.cx.moveTo(cpaint.initialCoord[0], cpaint.initialCoord[1]);
       cpaint.cx.lineTo(x,y);
       cpaint.cx.stroke();
+      cpaint.cx.closePath();
     } else if (cpaint.tool == "rect") {
       cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
       cpaint.cx.putImageData(cpaint.imgData,0,0);

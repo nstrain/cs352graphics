@@ -223,6 +223,15 @@ cpaint.unfade = function(ev) {
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
+cpaint.edgeDetect = function(ev) {
+  cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+  var original = cpaint.imgData.data;
+  for (var i=0; i<cpaint.imgData.width; i += 1) {
+    
+  }
+
+}
+
 // select tool
 cpaint.selectTool = function(ev) {
   cpaint.tool = ev.data.tool;			// get tool name

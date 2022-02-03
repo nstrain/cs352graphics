@@ -58,8 +58,16 @@ cpaint.drawStart = function(ev) {
   ev.preventDefault();
 
   cpaint.drawing = true;			// go into drawing mode
+
+  cpaint.color = $('#color1').val();
+  if(cpaint.tool == 'eraser'){
+    cpaint.color = '#eee'
+  }
+
   cpaint.cx.lineWidth = cpaint.lineThickness;
+  cpaint.cx.lineStyle = cpaint.color;
   cpaint.cx.strokeStyle = cpaint.color;
+  cpaint.cx.fillStyle = cpaint.color;
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   						// save drawing window contents
   // cpaint.cx.beginPath();			// draw initial point

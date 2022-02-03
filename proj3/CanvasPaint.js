@@ -18,6 +18,7 @@ cpaint.init = function () {
   cpaint.canvas  = $('#canvas1')[0];
   cpaint.cx = cpaint.canvas.getContext('2d');
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+  cpaint.lastCoord = [0,0];
   					// create offscreen copy of canvas in an image
 
   // bind functions to events, button clicks
@@ -52,10 +53,11 @@ cpaint.drawStart = function(ev) {
   cpaint.cx.strokeStyle = cpaint.color;
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   						// save drawing window contents
-  cpaint.cx.beginPath();			// draw initial point
-  cpaint.cx.moveTo(x-1,y-1);
-  cpaint.cx.lineTo(x,y);
-  cpaint.cx.stroke();
+  // cpaint.cx.beginPath();			// draw initial point
+  // cpaint.cx.moveTo(x-1,y-1);
+  // cpaint.cx.lineTo(x,y);
+  // cpaint.cx.stroke();
+  cpaint.lastCoord = [x,y];
 }
 
 /*
@@ -75,10 +77,11 @@ cpaint.draw = function(ev) {
 
   if (cpaint.drawing) {
     cpaint.cx.beginPath();			// draw initial stroke
-    cpaint.cx.moveTo(x-2,y-2);
+    cpaint.cx.moveTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
     cpaint.cx.lineTo(x,y);
     cpaint.cx.stroke();
   }
+  cpaint.lastCoord = [x,y];
 } 
 
 /*

@@ -19,6 +19,9 @@ cpaint.init = function () {
   cpaint.cx = cpaint.canvas.getContext('2d');
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   cpaint.lastCoord = [0,0];
+  cpaint.secondLastCoord = [0,0];
+  cpaint.initialCoord = [0,0];
+  
   					// create offscreen copy of canvas in an image
 
   // bind functions to events, button clicks
@@ -82,6 +85,7 @@ cpaint.drawStart = function(ev) {
   // cpaint.cx.stroke();
   cpaint.lastCoord = [x,y];
   cpaint.secondLastCoord = [x,y];
+  cpaint.initialCoord = [x,y];
 }
 
 /*
@@ -102,11 +106,23 @@ cpaint.draw = function(ev) {
   if (cpaint.drawing) {
     cpaint.lineWidth = 1;
     cpaint.lineJoin = 'round';
-    cpaint.cx.beginPath();			// draw initial stroke
-    cpaint.cx.moveTo(cpaint.secondLastCoord[0], cpaint.secondLastCoord[1]);
-    cpaint.cx.lineTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
-    cpaint.cx.lineTo(x,y);
-    cpaint.cx.stroke();
+    if(cpaint.tool == 'marker' || cpaint.tool == 'eraser'){
+      cpaint.cx.beginPath();			// draw initial stroke
+      cpaint.cx.moveTo(cpaint.secondLastCoord[0], cpaint.secondLastCoord[1]);
+      cpaint.cx.lineTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
+      cpaint.cx.lineTo(x,y);
+      cpaint.cx.stroke();
+    } else if (cpaint.tool == "line") {
+      cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+      cpaint.cx.putImageData(cpaint.imgData,0,0);
+      cpaint.cx.moveTo(cpaint.initialCoord[0], cpaint.initialCoord[1]);
+      cpaint.cx.lineTo(x,y);
+      cpaint.cx.stroke();
+    } else if (cpaint.tool == "rect") {
+      cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+      cpaint.cx.putImageData(cpaint.imgData,0,0);
+      cpaint.cx.fillRect(cpaint.initialCoord[0],cpaint.initialCoord[1], x-cpaint.initialCoord[0],y-cpaint.initialCoord[1]);
+    }
   }
   cpaint.secondLastCoord = cpaint.lastCoord;
   cpaint.lastCoord = [x,y];

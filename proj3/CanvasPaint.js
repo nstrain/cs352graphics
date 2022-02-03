@@ -43,11 +43,11 @@ cpaint.init = function () {
   $('#rectButton').bind('click', {tool:"rect"}, cpaint.selectTool);
   $('#eraserButton').bind('click', {tool:"eraser"}, cpaint.selectTool);
   $('#clearButton').bind('click', cpaint.clear);
-  $('#widthSlider').bind('change', cpanint.thickness);
+  $('#widthSlider').bind('change', cpaint.thickness);
 }
 
 cpaint.thickness = function() {
-  $('#dot').css({"height": $('#widthSlider').val() + "px", "width":$('#widthSlider').val() + "px"});
+  $('#dot').css({"height": Math.round($('#widthSlider').val()/2) + "px", "width":Math.round($('#widthSlider').val()/2) + "px"});
 }
 
 cpaint.clear = function() {

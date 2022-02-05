@@ -236,8 +236,8 @@ cpaint.edgeDetect = function(ev) {
   var edges = cpaint.imgData.data;
   var vertical;
   var horizontal;
-  for (var col=1; col<cpaint.canvas.width; col += 1) {
-    for(var row=1; row < cpaint.canvas.height; row += 1) {
+  for (var col=1; col<cpaint.canvas.width-1; col += 1) {
+    for(var row=1; row < cpaint.canvas.height-1; row += 1) {
       vertical = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
         cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] +
         cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -

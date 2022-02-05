@@ -227,6 +227,7 @@ cpaint.unfade = function(ev) {
   for (var i=0; i<pix.length; i += 4) {
     pix[i+3] *= 2;		// increase alpha of each pixel
   }
+  console.log(cpaint.imageData);
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
@@ -261,6 +262,7 @@ cpaint.edgeDetect = function(ev) {
     }
     
   }
+  console.log(cpaint.imageData);
   cpaint.cx.putImageData(cpaint.imageData, 0,0);
 
 }

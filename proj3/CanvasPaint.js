@@ -237,26 +237,26 @@ cpaint.edgeDetect = function(ev) {
   var horizontal;
   for (var col=1; col<cpaint.canvas.width; col += 1) {
     for(var row=1; row < cpaint.canvas.height; row += 1) {
-      vertical = cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] + 
-        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-0) * 4)) + 0] +
-        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] - 
-        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-0) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0];
-      horizontal = cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] + 
-        cpaint.imgData.data[(((row-0) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] +
-        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] -
-        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] - 
-        cpaint.imgData.data[(((row+0) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0];
+      vertical = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
+        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] +
+        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] - 
+        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0];
+      horizontal = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
+        cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] +
+        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] -
+        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] - 
+        cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0];
       if(Math.abs(vertical) > 2 || Math.abs(horizontal) > 2) {
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 0] = 255;
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 1] = 255;
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 2] = 255;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 255;
       } else {
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 0] = 0;
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 1] = 0;
-        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 2] = 0;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 0;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 0;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 0;
       }
     }
     

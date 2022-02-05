@@ -263,7 +263,7 @@ cpaint.edgeDetect = function(ev) {
     
   }
   console.log(cpaint.imageData);
-  cpaint.cx.putImageData(cpaint.imageData, 0,0);
+  cpaint.cx.putImageData(cpaint.imgData, 0,0);
 
 }
 

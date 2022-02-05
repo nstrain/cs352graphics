@@ -233,7 +233,7 @@ cpaint.unfade = function(ev) {
 
 cpaint.edgeDetect = function(ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-  var edges = cpaint.imgData.data;
+  var edges = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var vertical;
   var horizontal;
   var max = 0;
@@ -265,7 +265,7 @@ cpaint.edgeDetect = function(ev) {
     
   }
   console.log(max);
-  cpaint.cx.putImageData(cpaint.imgData, 0,0);
+  cpaint.cx.putImageData(edges, 0,0);
 
 }
 

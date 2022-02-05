@@ -301,10 +301,14 @@ cpaint.edgeDetect = function(ev) {
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 255;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3] = 255;
+
       } else {
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 0;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 0;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 0;
+        edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3] = 255;
+
       }
     }
     

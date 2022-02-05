@@ -239,20 +239,65 @@ cpaint.edgeDetect = function(ev) {
   var max = 0;
   for (var col=1; col<cpaint.canvas.width-1; col += 1) {
     for(var row=1; row < cpaint.canvas.height-1; row += 1) {
-      vertical = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
-        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] +
-        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] - 
-        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0];
-      horizontal = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
-        cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] +
-        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] -
-        cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] - 
-        cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
-        cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0];
-      max = Math.max(Math.abs(horizontal), Math.abs(vertical));
-      if(Math.abs(vertical) > 2 || Math.abs(horizontal) > 2) {
+      vertical = 
+        Math.max(
+          //red
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] +
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] - 
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0]
+          ),
+          //green
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] + 
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 1] +
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] - 
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 1] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1]
+          ),
+          //blue
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] + 
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 2] +
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] - 
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 2] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2]
+          )
+        );
+      horizontal = 
+        Math.max(
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
+            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] +
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] -
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] - 
+            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0]
+          ),
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] + 
+            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] +
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] -
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] - 
+            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1]
+          ),
+          Math.abs(
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] + 
+            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] +
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] -
+            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] - 
+            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] -
+            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2]
+          )
+        );
+      max = Math.max(horizontal, vertical);
+      if(vertical > 2 || horizontal > 2) {
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 255;

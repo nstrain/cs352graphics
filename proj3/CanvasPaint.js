@@ -236,6 +236,7 @@ cpaint.edgeDetect = function(ev) {
   var edges = cpaint.imgData.data;
   var vertical;
   var horizontal;
+  var max = 0;
   for (var col=1; col<cpaint.canvas.width-1; col += 1) {
     for(var row=1; row < cpaint.canvas.height-1; row += 1) {
       vertical = cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
@@ -250,6 +251,7 @@ cpaint.edgeDetect = function(ev) {
         cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] - 
         cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
         cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0];
+      max = Math.max(Math.abs(horizontal), Math.abs(vertical));
       if(Math.abs(vertical) > 2 || Math.abs(horizontal) > 2) {
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
         edges[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
@@ -262,7 +264,7 @@ cpaint.edgeDetect = function(ev) {
     }
     
   }
-  console.log(cpaint.imageData);
+  console.log(max);
   cpaint.cx.putImageData(cpaint.imgData, 0,0);
 
 }

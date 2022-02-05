@@ -40,6 +40,7 @@ cpaint.init = function () {
   $('#menuOpen').bind('click',cpaint.open);
   $('#menuSave').bind('click',cpaint.save);
   $('#menuEdge').bind('click', cpaint.edgeDetect);
+  $('#menuBlur').bind('click', cpaint.edgeDetect);
   $('#toolBar').show();		// when toolbar is initialized, make it visible
 
   $('#menuMarker').bind('click', {tool:"marker"}, cpaint.selectTool);

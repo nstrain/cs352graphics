@@ -39,6 +39,7 @@ cpaint.init = function () {
   $('#menuUnfade').bind('click', cpaint.unfade);
   $('#menuOpen').bind('click',cpaint.open);
   $('#menuSave').bind('click',cpaint.save);
+  $('#menuEdge').bind('click', cpaint.edgeDetect);
   $('#toolBar').show();		// when toolbar is initialized, make it visible
 
   $('#menuMarker').bind('click', {tool:"marker"}, cpaint.selectTool);
@@ -231,8 +232,33 @@ cpaint.unfade = function(ev) {
 
 cpaint.edgeDetect = function(ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-  var original = cpaint.imgData.data;
-  for (var i=0; i<cpaint.imgData.width; i += 1) {
+  var edges = cpaint.imgData.data;
+  var vertical;
+  var horizontal;
+  for (var col=1; col<cpaint.imgData.width; col += 1) {
+    for(var row=1; row < cpaint.imgData.height; row += 1) {
+      vertical = cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] + 
+        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-0) * 4)) + 0] +
+        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] - 
+        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-0) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0];
+      horizontal = cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] + 
+        cpaint.imgData.data[(((row-0) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] +
+        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col-1) * 4)) + 0] -
+        cpaint.imgData.data[(((row-1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] - 
+        cpaint.imgData.data[(((row+0) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0] -
+        cpaint.imgData.data[(((row+1) * (cpaint.imageData.width * 4)) + ((col+1) * 4)) + 0];
+      if(Math.abs(vertical) > 2 || Math.abs(horizontal) > 2) {
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 0] = 255;
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 1] = 255;
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 2] = 255;
+      } else {
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 0] = 0;
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 1] = 0;
+        edges[((row * (cpaint.imageData.width * 4)) + (col * 4)) + 2] = 0;
+      }
+    }
     
   }
 

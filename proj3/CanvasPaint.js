@@ -297,7 +297,7 @@ cpaint.edgeDetect = function(ev) {
           )
         );
       max = Math.max(horizontal, vertical);
-      if(vertical > 6 || horizontal > 6) {
+      if(vertical > 50 || horizontal > 50) {
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 255;

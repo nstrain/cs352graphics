@@ -265,6 +265,7 @@ cpaint.edgeDetect = function(ev) {
     
   }
   console.log(max);
+  cpaint.imageData = edges;
   cpaint.cx.putImageData(edges, 0,0);
 
 }

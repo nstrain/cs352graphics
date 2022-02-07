@@ -325,8 +325,6 @@ cpaint.edgeDetect = function (ev) {
 cpaint.blur = function (ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
-  var vertical;
-  var horizontal;
   var max = 0;
   for (var col = 1; col < cpaint.canvas.width - 1; col += 1) {
     for (var row = 1; row < cpaint.canvas.height - 1; row += 1) {
@@ -360,6 +358,7 @@ cpaint.blur = function (ev) {
         (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
         (1 / 9) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
         (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2];
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3] = cpaint.imgData.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3];
     }
 
   }

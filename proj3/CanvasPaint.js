@@ -8,21 +8,21 @@
 $(document).ready(function () { cpaint.init(); });
 
 var cpaint = {
-  drawing: 		false,
-  tool:			'marker',
-  lineThickness: 	12,
-  color:		'#333399',
+  drawing: false,
+  tool: 'marker',
+  lineThickness: 12,
+  color: '#333399',
 }
 
-cpaint.init = function () {  
-  cpaint.canvas  = $('#canvas1')[0];
+cpaint.init = function () {
+  cpaint.canvas = $('#canvas1')[0];
   cpaint.cx = cpaint.canvas.getContext('2d');
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-  cpaint.lastCoord = [0,0];
-  cpaint.secondLastCoord = [0,0];
-  cpaint.initialCoord = [0,0];
-  
-  					// create offscreen copy of canvas in an image
+  cpaint.lastCoord = [0, 0];
+  cpaint.secondLastCoord = [0, 0];
+  cpaint.initialCoord = [0, 0];
+
+  // create offscreen copy of canvas in an image
 
   // bind functions to events, button clicks
   $(cpaint.canvas).bind('mousedown', cpaint.drawStart);
@@ -37,37 +37,38 @@ cpaint.init = function () {
   $('#menuNew').bind('click', cpaint.clear);
   $('#menuFade').bind('click', cpaint.fade);
   $('#menuUnfade').bind('click', cpaint.unfade);
-  $('#menuOpen').bind('click',cpaint.open);
-  $('#menuSave').bind('click',cpaint.save);
+  $('#menuOpen').bind('click', cpaint.open);
+  $('#menuSave').bind('click', cpaint.save);
   $('#menuEdge').bind('click', cpaint.edgeDetect);
-  $('#menuBlur').bind('click', cpaint.edgeDetect);
+  $('#menuBlur').bind('click', cpaint.blur);
+  $('#menuSharpen').bind('click', cpaint.sharpen);
   $('#toolBar').show();		// when toolbar is initialized, make it visible
 
-  $('#menuMarker').bind('click', {tool:"marker"}, cpaint.selectTool);
-  $('#menuLine').bind('click', {tool:"line"}, cpaint.selectTool);
-  $('#menuRect').bind('click', {tool:"rect"}, cpaint.selectTool);
-  $('#menuEraser').bind('click', {tool:"eraser"}, cpaint.selectTool);
+  $('#menuMarker').bind('click', { tool: "marker" }, cpaint.selectTool);
+  $('#menuLine').bind('click', { tool: "line" }, cpaint.selectTool);
+  $('#menuRect').bind('click', { tool: "rect" }, cpaint.selectTool);
+  $('#menuEraser').bind('click', { tool: "eraser" }, cpaint.selectTool);
 
   //side tool bar selection
-  $('#markerButton').bind('click', {tool:"marker"}, cpaint.selectTool);
-  $('#lineButton').bind('click', {tool:"line"}, cpaint.selectTool);
-  $('#rectButton').bind('click', {tool:"rect"}, cpaint.selectTool);
-  $('#eraserButton').bind('click', {tool:"eraser"}, cpaint.selectTool);
+  $('#markerButton').bind('click', { tool: "marker" }, cpaint.selectTool);
+  $('#lineButton').bind('click', { tool: "line" }, cpaint.selectTool);
+  $('#rectButton').bind('click', { tool: "rect" }, cpaint.selectTool);
+  $('#eraserButton').bind('click', { tool: "eraser" }, cpaint.selectTool);
   $('#clearButton').bind('click', cpaint.clear);
   $('#widthSlider').bind('change', cpaint.thickness);
 }
 
-cpaint.thickness = function() {
-  $('#dot').css({"height": Math.round($('#widthSlider').val()/2) + "px", "width":Math.round($('#widthSlider').val()/2) + "px"});
+cpaint.thickness = function () {
+  $('#dot').css({ "height": Math.round($('#widthSlider').val() / 2) + "px", "width": Math.round($('#widthSlider').val() / 2) + "px" });
 }
 
-cpaint.clear = function() {
-  cpaint.cx.clearRect(0,0, cpaint.canvas.width, cpaint.canvas.height);
+cpaint.clear = function () {
+  cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
 }
 /*
  * handle mousedown events
  */
-cpaint.drawStart = function(ev) {
+cpaint.drawStart = function (ev) {
   var x, y; 				// convert event coords to (0,0) at top left of canvas
   x = ev.pageX - $(cpaint.canvas).offset().left;
   y = ev.pageY - $(cpaint.canvas).offset().top;
@@ -77,7 +78,7 @@ cpaint.drawStart = function(ev) {
 
   cpaint.color = $('#color1').val();
   cpaint.lineThickness = $('#widthSlider').val();
-  if(cpaint.tool == 'eraser'){
+  if (cpaint.tool == 'eraser') {
     cpaint.color = '#ffffff'
   }
 
@@ -86,27 +87,27 @@ cpaint.drawStart = function(ev) {
   cpaint.cx.strokeStyle = cpaint.color;
   cpaint.cx.fillStyle = cpaint.color;
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-  						// save drawing window contents
+  // save drawing window contents
   // cpaint.cx.beginPath();			// draw initial point
   // cpaint.cx.moveTo(x-1,y-1);
   // cpaint.cx.lineTo(x,y);
   // cpaint.cx.stroke();
-  cpaint.lastCoord = [x,y];
-  cpaint.secondLastCoord = [x,y];
-  cpaint.initialCoord = [x,y];
+  cpaint.lastCoord = [x, y];
+  cpaint.secondLastCoord = [x, y];
+  cpaint.initialCoord = [x, y];
 }
 
 /*
  * handle mouseup events
  */
-cpaint.drawEnd = function(ev) {
+cpaint.drawEnd = function (ev) {
   cpaint.drawing = false;
 }
 
 /*
  * handle mousemove events
  */
-cpaint.draw = function(ev) {
+cpaint.draw = function (ev) {
   var x, y;
   x = ev.pageX - $(cpaint.canvas).offset().left;
   y = ev.pageY - $(cpaint.canvas).offset().top;
@@ -114,44 +115,44 @@ cpaint.draw = function(ev) {
   if (cpaint.drawing) {
     cpaint.lineWidth = 1;
     cpaint.lineJoin = 'round';
-    if(cpaint.tool == 'marker' || cpaint.tool == 'eraser'){
+    if (cpaint.tool == 'marker' || cpaint.tool == 'eraser') {
       cpaint.cx.beginPath();			// draw initial stroke
       cpaint.cx.moveTo(cpaint.secondLastCoord[0], cpaint.secondLastCoord[1]);
-      cpaint.cx.lineTo(cpaint.lastCoord[0],cpaint.lastCoord[1]);
-      cpaint.cx.lineTo(x,y);
+      cpaint.cx.lineTo(cpaint.lastCoord[0], cpaint.lastCoord[1]);
+      cpaint.cx.lineTo(x, y);
       cpaint.cx.stroke();
     } else if (cpaint.tool == "line") {
       cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-      cpaint.cx.putImageData(cpaint.imgData,0,0);
+      cpaint.cx.putImageData(cpaint.imgData, 0, 0);
       cpaint.cx.beginPath();
       cpaint.cx.moveTo(cpaint.initialCoord[0], cpaint.initialCoord[1]);
-      cpaint.cx.lineTo(x,y);
+      cpaint.cx.lineTo(x, y);
       cpaint.cx.stroke();
       cpaint.cx.closePath();
     } else if (cpaint.tool == "rect") {
       cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-      cpaint.cx.putImageData(cpaint.imgData,0,0);
-      cpaint.cx.fillRect(cpaint.initialCoord[0],cpaint.initialCoord[1], x-cpaint.initialCoord[0],y-cpaint.initialCoord[1]);
+      cpaint.cx.putImageData(cpaint.imgData, 0, 0);
+      cpaint.cx.fillRect(cpaint.initialCoord[0], cpaint.initialCoord[1], x - cpaint.initialCoord[0], y - cpaint.initialCoord[1]);
     }
   }
   cpaint.secondLastCoord = cpaint.lastCoord;
-  cpaint.lastCoord = [x,y];
-  
-} 
+  cpaint.lastCoord = [x, y];
+
+}
 
 /*
  * clear the canvas, offscreen buffer, and message box
  */
-cpaint.clear = function(ev) {
+cpaint.clear = function (ev) {
   cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   $('#messages').html("");
-}  
+}
 
 /*
  * color picker widget handler
  */
-cpaint.colorChange = function(ev) {
+cpaint.colorChange = function (ev) {
   $('#messages').prepend("Color: " + $('#color1').val() + "<br>");
 }
 
@@ -159,32 +160,32 @@ cpaint.colorChange = function(ev) {
 /*
  * handle open menu item by making open dialog visible
  */
-cpaint.open = function(ev) { 
+cpaint.open = function (ev) {
   $('#fileInput').show();
-  $('#file1').bind('change submit',cpaint.loadFile);
-  $('#closeBox1').bind('click',cpaint.closeDialog);
-  $('#messages').prepend("In open<br>");	
+  $('#file1').bind('change submit', cpaint.loadFile);
+  $('#closeBox1').bind('click', cpaint.closeDialog);
+  $('#messages').prepend("In open<br>");
 }
 
 /*
  * load the image whose URL has been typed in
  * (this should have some error handling)
  */
-cpaint.loadFile = function() {
+cpaint.loadFile = function () {
   $('#fileInput').hide();
-  $('#messages').prepend("In loadFile<br>");	
+  $('#messages').prepend("In loadFile<br>");
   var img = document.createElement('img');
   var file1 = $("#file1").val();
-  $('#messages').prepend("Loading image " + file1 + "<br>");	
+  $('#messages').prepend("Loading image " + file1 + "<br>");
 
-  img.src=file1;
-  img.onload = function() {
+  img.src = file1;
+  img.onload = function () {
     cpaint.cx.clearRect(0, 0, cpaint.canvas.width, cpaint.canvas.height);
-    cpaint.cx.drawImage(img,0, 0, cpaint.canvas.width, cpaint.canvas.height);
+    cpaint.cx.drawImage(img, 0, 0, cpaint.canvas.width, cpaint.canvas.height);
   }
 }
 
-cpaint.closeDialog = function() {
+cpaint.closeDialog = function () {
   $('#fileInput').hide();
 }
 
@@ -192,113 +193,113 @@ cpaint.closeDialog = function() {
  * to save a drawing, copy it into an image element
  * which can be right-clicked and save-ased
  */
-cpaint.save = function(ev) {
-  $('#messages').prepend("Saving...<br>");	
+cpaint.save = function (ev) {
+  $('#messages').prepend("Saving...<br>");
   var dataURL = cpaint.canvas.toDataURL();
   if (dataURL) {
     $('#saveWindow').show();
-    $('#saveImg').attr('src',dataURL);
-    $('#closeBox2').bind('click',cpaint.closeSaveWindow);
+    $('#saveImg').attr('src', dataURL);
+    $('#closeBox2').bind('click', cpaint.closeSaveWindow);
   } else {
     alert("Your browser doesn't implement the toDataURL() method needed to save images.");
   }
 }
 
-cpaint.closeSaveWindow = function() {
+cpaint.closeSaveWindow = function () {
   $('#saveWindow').hide();
 }
 
 /*
  * Fade/unfade an image by altering Alpha of each pixel
  */
-cpaint.fade = function(ev) {
-  $('#messages').prepend("Fade<br>");	
+cpaint.fade = function (ev) {
+  $('#messages').prepend("Fade<br>");
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var pix = cpaint.imgData.data;
-  for (var i=0; i<pix.length; i += 4) {
-    pix[i+3] /= 2;		// reduce alpha of each pixel
+  for (var i = 0; i < pix.length; i += 4) {
+    pix[i + 3] /= 2;		// reduce alpha of each pixel
   }
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
-cpaint.unfade = function(ev) {
-  $('#messages').prepend("Unfade<br>");	
+cpaint.unfade = function (ev) {
+  $('#messages').prepend("Unfade<br>");
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var pix = cpaint.imgData.data;
-  for (var i=0; i<pix.length; i += 4) {
-    pix[i+3] *= 2;		// increase alpha of each pixel
+  for (var i = 0; i < pix.length; i += 4) {
+    pix[i + 3] *= 2;		// increase alpha of each pixel
   }
   console.log(cpaint.imageData);
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
-cpaint.edgeDetect = function(ev) {
+cpaint.edgeDetect = function (ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
   var vertical;
   var horizontal;
   var max = 0;
-  for (var col=1; col<cpaint.canvas.width-1; col += 1) {
-    for(var row=1; row < cpaint.canvas.height-1; row += 1) {
-      vertical = 
+  for (var col = 1; col < cpaint.canvas.width - 1; col += 1) {
+    for (var row = 1; row < cpaint.canvas.height - 1; row += 1) {
+      vertical =
         Math.max(
           //red
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] +
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] - 
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 0] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0]
           ),
           //green
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] + 
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 1] +
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] - 
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 1] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1]
           ),
           //blue
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] + 
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 2] +
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] - 
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-0) * 4)) + 2] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2]
           )
         );
-      horizontal = 
+      horizontal =
         Math.max(
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] + 
-            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] +
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 0] -
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] - 
-            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 0]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+            cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] -
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] -
+            cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0]
           ),
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] + 
-            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] +
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 1] -
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] - 
-            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 1]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+            cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] -
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] -
+            cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1]
           ),
           Math.abs(
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] + 
-            cpaint.imgData.data[(((row-0) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] +
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col-1) * 4)) + 2] -
-            cpaint.imgData.data[(((row-1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] - 
-            cpaint.imgData.data[(((row+0) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2] -
-            cpaint.imgData.data[(((row+1) * (cpaint.canvas.width * 4)) + ((col+1) * 4)) + 2]
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+            cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] -
+            cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] -
+            cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] -
+            cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2]
           )
         );
       max = Math.max(horizontal, vertical);
-      if(vertical > 80 || horizontal > 80) {
+      if (vertical > 80 || horizontal > 80) {
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] = 255;
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] = 255;
         edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] = 255;
@@ -312,20 +313,68 @@ cpaint.edgeDetect = function(ev) {
 
       }
     }
-    
+
   }
   console.log(max);
   cpaint.imageData = edges;
 
-  cpaint.cx.putImageData(edges, 0,0);
+  cpaint.cx.putImageData(edges, 0, 0);
+
+}
+
+cpaint.blur = function (ev) {
+  cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+  var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
+  var vertical;
+  var horizontal;
+  var max = 0;
+  for (var col = 1; col < cpaint.canvas.width - 1; col += 1) {
+    for (var row = 1; row < cpaint.canvas.height - 1; row += 1) {
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] =
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0];
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] =
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1];
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] =
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (1 / 9) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2];
+    }
+
+  }
+  console.log(max);
+  cpaint.imageData = edges;
+
+  cpaint.cx.putImageData(edges, 0, 0);
 
 }
 
 // select tool
-cpaint.selectTool = function(ev) {
+cpaint.selectTool = function (ev) {
   cpaint.tool = ev.data.tool;			// get tool name
 
-  $('.toolbarCell').each(function(index) {	// unselect other buttons
+  $('.toolbarCell').each(function (index) {	// unselect other buttons
     $(this).removeClass('selected');
   });
 

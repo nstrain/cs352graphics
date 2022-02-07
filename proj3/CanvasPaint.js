@@ -376,35 +376,35 @@ cpaint.sharpen = function (ev) {
   for (var col = 1; col < cpaint.canvas.width - 1; col += 1) {
     for (var row = 1; row < cpaint.canvas.height - 1; row += 1) {
       edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] =
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
-        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
-        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
-        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
-        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
-        (-2) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0];
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (4) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0];
       edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] =
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
-        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
-        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
-        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
-        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
-        (-2) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1];
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (4) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1];
       edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] =
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
-        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
-        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
-        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
-        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
-        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
-        (-2) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
-        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2];
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (4) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (0) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (0) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2];
       edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3] = cpaint.imgData.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3];
     }
 

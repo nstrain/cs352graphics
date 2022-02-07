@@ -369,6 +369,53 @@ cpaint.blur = function (ev) {
 
 }
 
+cpaint.sharpen = function (ev) {
+  cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
+  var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
+  var max = 0;
+  for (var col = 1; col < cpaint.canvas.width - 1; col += 1) {
+    for (var row = 1; row < cpaint.canvas.height - 1; row += 1) {
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 0] =
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 0] +
+        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0];
+        (-2) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 0] +
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 1] =
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 1] +
+        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (-1) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1] +
+        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 1];
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 2] =
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (-2) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 1) * 4)) + 2] +
+        (-2) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (12) * cpaint.imgData.data[(((row - 0) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col - 0) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row - 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (-1) * cpaint.imgData.data[(((row + 0) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2] +
+        (-2) * cpaint.imgData.data[(((row + 1) * (cpaint.canvas.width * 4)) + ((col + 1) * 4)) + 2];
+      edges.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3] = cpaint.imgData.data[((row * (cpaint.canvas.width * 4)) + (col * 4)) + 3];
+    }
+
+  }
+  console.log(max);
+  cpaint.imageData = edges;
+
+  cpaint.cx.putImageData(edges, 0, 0);
+
+}
+
 // select tool
 cpaint.selectTool = function (ev) {
   cpaint.tool = ev.data.tool;			// get tool name

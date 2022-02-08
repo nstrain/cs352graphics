@@ -3,6 +3,7 @@
  * HTML5 canvas element--for CS352, Calvin College Computer Science
  *
  * Harry Plantinga -- January 2011
+ * Modified by Nathan Strain, Feb 2022
  */
 
 $(document).ready(function () { cpaint.init(); });
@@ -79,9 +80,10 @@ cpaint.drawStart = function (ev) {
   cpaint.color = $('#color1').val();
   cpaint.lineThickness = $('#widthSlider').val();
   if (cpaint.tool == 'eraser') {
-    cpaint.color = '#ffffff'
+    cpaint.color = '#ffffff';
   }
 
+  cpaint.cx.lineCap = "round";
   cpaint.cx.lineWidth = cpaint.lineThickness;
   cpaint.cx.lineStyle = cpaint.color;
   cpaint.cx.strokeStyle = cpaint.color;
@@ -233,6 +235,9 @@ cpaint.unfade = function (ev) {
   cpaint.cx.putImageData(cpaint.imgData, 0, 0);
 }
 
+/* 
+* Use a convolution kernal to detect edges and mark them with white lines on a black background
+*/
 cpaint.edgeDetect = function (ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
@@ -322,6 +327,9 @@ cpaint.edgeDetect = function (ev) {
 
 }
 
+/* 
+* Use a convolution kernal to blur the canvas
+*/
 cpaint.blur = function (ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);
@@ -369,6 +377,9 @@ cpaint.blur = function (ev) {
 
 }
 
+/* 
+* Use a convolution kernal to sharpen the canvas
+*/
 cpaint.sharpen = function (ev) {
   cpaint.imgData = cpaint.cx.getImageData(0, 0, cpaint.canvas.width, cpaint.canvas.height);
   var edges = new ImageData(cpaint.canvas.width, cpaint.canvas.height);

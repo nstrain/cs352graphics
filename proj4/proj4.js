@@ -181,4 +181,4 @@ climb.draw = function () {
 climb.accel = function(event) {
     $('#grade').val(event.gamma);
 }
-window.addEventListener("deviceorientation", main.handleOrientation);
+window.addEventListener("deviceorientation", climb.accel);

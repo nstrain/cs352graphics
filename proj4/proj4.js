@@ -177,3 +177,8 @@ climb.draw = function () {
 
     setTimeout(climb.draw, 1000 / 90);
 }
+
+climb.accel = function(event) {
+    $('#grade').val(event.gamma);
+}
+window.addEventListener("deviceorientation", main.handleOrientation);

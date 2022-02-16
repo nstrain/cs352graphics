@@ -104,13 +104,13 @@ climb.draw = function () {
     //legs
     climb.cx.save();
     climb.cx.translate(100,190);
-    climb.cx.rotate(-Math.sin((climb.bird / 2) * (Math.PI / 180)) );
+    climb.cx.rotate(-Math.sin((((climb.bird+180)%360) / 2) * (Math.PI / 180)) );
     climb.cx.beginPath();
     climb.cx.moveTo(0,0);
     climb.cx.lineTo(0,15);
     climb.cx.stroke();
     climb.cx.translate(0,15);
-    climb.cx.rotate(Math.sin((climb.bird / 2) * (Math.PI / 180)) );
+    climb.cx.rotate(Math.sin((((climb.bird+180)%360) / 2) * (Math.PI / 180)) );
     climb.cx.beginPath();
     climb.cx.moveTo(0,0);
     climb.cx.lineTo(0,15);
@@ -119,15 +119,15 @@ climb.draw = function () {
 
     climb.cx.save();
     climb.cx.translate(100,190);
-    var offset = (grade < -80) ? 180:0;
+    var steep = (grade < -80) ? 1:0;
     // console.log(offset);
-    climb.cx.rotate(-Math.sin((((climb.bird+180)%360) / 2 + offset) * (Math.PI / 180)) );
+    climb.cx.rotate(-Math.sin((climb.bird / 2 + 180*steep) * (Math.PI / 180)) );
     climb.cx.beginPath();
     climb.cx.moveTo(0,0);
     climb.cx.lineTo(0,15);
     climb.cx.stroke();
     climb.cx.translate(0,15);
-    climb.cx.rotate(Math.sin((((climb.bird+180)%360) / 2 + offset) * (Math.PI / 180)) );
+    climb.cx.rotate(Math.sin((climb.bird / 2 + 180*steep) * (Math.PI / 180)) );
     climb.cx.beginPath();
     climb.cx.moveTo(0,0);
     climb.cx.lineTo(0,15);
@@ -136,9 +136,42 @@ climb.draw = function () {
 
     //arms
     climb.cx.save()
-    
+    climb.cx.translate(100,170);
+    climb.cx.rotate(-Math.sin((climb.bird / (2)) * (Math.PI / 180)) - Math.PI/8 * steep);
+    climb.cx.beginPath();
+    climb.cx.moveTo(0,0);
+    climb.cx.lineTo(0,10);
+    climb.cx.stroke();
+    climb.cx.translate(0,10);
+    climb.cx.rotate(-Math.sin((climb.bird / (2)) * (Math.PI / 180)) - Math.PI/8*steep);
+    climb.cx.beginPath();
+    climb.cx.moveTo(0,0);
+    climb.cx.lineTo(0,8);
+    climb.cx.stroke();
     climb.cx.restore();
 
+    climb.cx.save()
+    climb.cx.translate(100,170);
+    if(grade <-80){
+        climb.cx.rotate(Math.sin((((climb.bird+180)%360) / (2)) * (Math.PI / 180)) + Math.PI/8);
+    } else {
+        climb.cx.rotate(-Math.sin((((climb.bird+180)%360) / (2)) * (Math.PI / 180)) - Math.PI/8 *steep);
+    }
+    climb.cx.beginPath();
+    climb.cx.moveTo(0,0);
+    climb.cx.lineTo(0,10);
+    climb.cx.stroke();
+    climb.cx.translate(0,10);
+    if(grade <-80){
+        climb.cx.rotate(Math.sin((((climb.bird+180)%360) / (2)) * (Math.PI / 180)) + Math.PI/8);
+    } else {
+        climb.cx.rotate(-Math.sin((((climb.bird+180)%360) / (2)) * (Math.PI / 180)) - Math.PI/8*steep);
+    }
+    climb.cx.beginPath();
+    climb.cx.moveTo(0,0);
+    climb.cx.lineTo(0,8);
+    climb.cx.stroke();
+    climb.cx.restore();
 
 
 

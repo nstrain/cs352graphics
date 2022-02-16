@@ -179,6 +179,6 @@ climb.draw = function () {
 }
 
 climb.accel = function(event) {
-    $('#grade').val(event.gamma);
+    $('#grade').val(event.beta);
 }
 window.addEventListener("deviceorientation", climb.accel);

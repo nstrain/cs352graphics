@@ -36,6 +36,10 @@ trackball.init = function () {
   $('#object1').bind("change", trackball.load);
   $('#resetButton').bind("click", trackball.init);
 
+  $('#perspectiveSlider').bind("change", trackball.setProjection);
+  $('#perspectiveCheckbox').bind("change", trackball.setProjection);
+
+
   /////MOUSE STUFFs
   $(trackball.canvas).bind('mousedown', trackball.moveBegin);
   $('*').bind('mouseup', trackball.moveEnd);
@@ -57,6 +61,7 @@ trackball.init = function () {
 trackball.setProjection = function () {
   var scale = $('#zoomSlider').val() / 100;
   var perspective = $('#perspectiveSlider').val() / 10;
+  $('#perspective').text((perspective).toFixed(2));
   if ($('#perspectiveCheckbox').attr('checked')) {
     projectionMat = Matrix.create([
       [scale, 0, 0, 0],
@@ -163,7 +168,7 @@ trackball.rotation = function (theta, n) {
 /*
  * display the object:
  *   - transform vertices according to modelview matrix
- *   - sort the faces (todo)
+ *   - sort the faces
  *   - light the faces (todo)
  *   - divide by w (todo)
  *   - draw the faces (with culling)
@@ -179,7 +184,7 @@ trackball.display = function () {
   var m = projectionMat.multiply(modelMat);
   for (var i = 0; i < vertices.length; i++) {
     p = m.multiply(vertices[i]);
-    v[i] = $V([p.e(1), p.e(2), p.e(3)]);
+    v[i] = $V([p.e(1) / p.e(4), p.e(2) / p.e(4), p.e(3) / p.e(4)]);
   }
 
   // create f[] array to store the order in which faces should be drawn.
@@ -192,19 +197,25 @@ trackball.display = function () {
 
   //Hidden Surface Removal
   if ($('#sortCheckbox').attr('checked')) {
-    trackball.hiddenSurfaceRemoval(f, faces);
+    // f = trackball.hiddenSurfaceRemoval(f, v);
+    f.sort(trackball.hiddenSurfaceRemoval);
   }
 
   // display the faces
   var v1, v2, v3, faceNorm;
   for (i = 0; i < faces.length; i++) {
+    v1 = v[faces[f[i]].indices[0]];
+    v2 = v[faces[f[i]].indices[1]];
+    v3 = v[faces[f[i]].indices[2]];
+    faceNorm = ((v2.subtract(v1)).cross(v3.subtract(v2))).toUnitVector();
+    // console.log(faceNorm);
+
 
     // set face color to what was in the object file -- max 200
     var r = Math.floor(faces[f[i]].Kd[0] * 200);
     var g = Math.floor(faces[f[i]].Kd[1] * 200);
     var b = Math.floor(faces[f[i]].Kd[2] * 200);
-    trackball.cx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-    trackball.cx.strokeStyle = "rgb(" + r + "," + g + "," + b + ")";
+
 
     // draw face
     trackball.cx.beginPath();
@@ -213,10 +224,28 @@ trackball.display = function () {
       trackball.cx.lineTo(v[faces[f[i]].indices[j]].e(1), v[faces[f[i]].indices[j]].e(2));
     trackball.cx.closePath();
 
-    if ($('#strokeCheckbox').attr('checked'))
-      trackball.cx.stroke();
-    if ($('#fillCheckbox').attr('checked'))
-      trackball.cx.fill();
+    if ($('#lightCheckbox').attr('checked')) {
+      var darkness = faceNorm.dot($V([0.03, -0.65, -0.76]).toUnitVector()) / 2 + 1/2*2;
+      // console.log(darkness);
+      var rl = Math.floor(darkness * r);
+      var bl = Math.floor(darkness * b);
+      var gl = Math.floor(darkness * g);
+      var style = "rgb(" + rl + "," + gl + "," + bl + ")";
+      trackball.cx.fillStyle = style;
+      trackball.cx.strokeStyle = style;
+    } else {
+
+      trackball.cx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+      trackball.cx.strokeStyle = "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+    //this if statement checks if the face should be culled, then negates the statement to draw needed faces
+    if (!(($('#cullCheckbox').attr('checked') && faceNorm.e(3) > 0) || ($('#cullFrontCheckbox').attr('checked') && faceNorm.e(3) < 0))) {
+      if ($('#strokeCheckbox').attr('checked'))
+        trackball.cx.stroke();
+      if ($('#fillCheckbox').attr('checked'))
+        trackball.cx.fill();
+    }
   }
 }
 
@@ -248,6 +277,7 @@ trackball.animate = function () {
  */
 trackball.zoom = function (ev) {
   $('#zoom').text(($('#zoomSlider').val() / 100).toFixed(2));
+  trackball.setProjection();
 }
 
 trackball.showVector = function (v) {
@@ -266,7 +296,6 @@ trackball.mousePosition = function (ev) {
 
   x = (windowX - trackball.screenWidth / 2) / trackball.radius;
   y = (trackball.screenHeight / 2 - windowY) / trackball.radius;
-  // To find z of the sphere
   z = 1 - x * x - y * y;
   if (z < 0) { z = 0; }
   return ($V([x, y, Math.sqrt(z)]));
@@ -299,11 +328,16 @@ trackball.moveEnd = function (ev) {
   trackball.mouseMovement = false;
 }
 
-// trackball.hiddenSurfaceRemoval = function(order, faces) {
-//   var minFace, minAvg, j;
-//   for( var i = 0; i < faces.length; i++) {
-//     minFace = 
 
-//   }
+trackball.hiddenSurfaceRemoval = function (surface1, surface2) {
+  avg1 = 0;
+  avg2 = 0;
+  for (var i = 0; i < faces[surface1].indices.length; i++) {
+    avg1 += v[faces[surface1].indices[i]].e(3);
+  }
+  for (var i = 0; i < faces[surface2].indices.length; i++) {
+    avg2 += v[faces[surface2].indices[i]].e(3);
+  }
 
-// }
+  return avg1 - avg2;
+}
